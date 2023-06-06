@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     'author',
     'comment',
     'note',
-    'corsheaders',
+    
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
