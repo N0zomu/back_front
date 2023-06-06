@@ -21,4 +21,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('user/', include(('user.urls', 'user'), namespace="user")),
     path('book/', include(('book.urls', 'book'), namespace="book")),
+    path('chapter/', include(('chapter.urls', 'chapter'), namespace="chapter")),
+    path('star/', include(('star.urls', 'star'), namespace="star")),
+    path('label/', include(('label.urls', 'label'), namespace="label")),
+    path('author/', include(('author.urls', 'author'), namespace="author")),
+    path('comment/', include(('comment.urls', 'comment'), namespace="comment")),
+    path('note/', include(('note.urls', 'note'), namespace="note")),
+
 ]
