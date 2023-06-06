@@ -58,6 +58,9 @@ CORS_ALLOW_HEADERS = (
 
 INSTALLED_APPS = [
     'user',
+    'author',
+    'label',
+    'star',
     'book',
     'chapter',
     'django.contrib.admin',
