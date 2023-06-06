@@ -14,8 +14,9 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Chapter',
             fields=[
-                ('chaper_id', models.AutoField(primary_key=True, serialize=False)),
-                ('book_id', models.CharField(max_length=20)),
+                ('chaper_id', models.IntegerField(primary_key=True,serialize=False)),
+                ('book_id', models.IntegerField()),
+                ('chapter_no', models.IntegerField()),
                 ('chapter_name', models.CharField(max_length=100)),
                 ('chapter_href', models.CharField(max_length=100)),
             ],
