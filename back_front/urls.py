@@ -22,4 +22,5 @@ urlpatterns = [
     path('author/', include(('author.urls', 'author'), namespace="author")),
     path('label/', include(('label.urls', 'label'), namespace="label")),
     path('star/', include(('star.urls', 'star'), namespace="star")),
+    path('comment/', include(('comment.urls', 'comment'), namespace="comment")),
 ]
