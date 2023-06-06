@@ -6,7 +6,7 @@ urlpatterns = [
     path('login', login),
     path('logout', logout),
     path('modifyUser', modifyUser),
-    path('getName', getName),
+    path('getUser', getUser),
     path('getManager', getManager)
     # 前一项是URL，后面是绑定的 views 中的函数
     # 当匹配到'register'这个 URL 时

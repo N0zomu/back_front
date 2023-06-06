@@ -12,5 +12,3 @@ class Note(models.Model):
     note = models.CharField(max_length=255)
     cfi = models.CharField(max_length=255)
 
-    class Meta:
-        unique_together = [('user_id', 'book_id')]

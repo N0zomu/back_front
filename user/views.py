@@ -31,10 +31,6 @@ def register(request):
 def login(request):
     if request.method == 'POST':
         data_json = json.loads(request.body)
-        id = data_json["user_id"]
-        # 从 session 中获取信息
-        if id != 0:
-            return JsonResponse({'result': 0, 'message': '用户已登录!'})
         username = data_json['username']
         password = data_json['password']
         if User.objects.filter(username=username).exists() == True:
@@ -77,7 +73,7 @@ def modifyUser(request):
         return JsonResponse({'result': 1, 'message': '修改成功!'})
 
 @csrf_exempt
-def getName(request):
+def getUser(request):
     if request.method == 'POST':
         data_json = json.loads(request.body)
         id = data_json["user_id"]
@@ -86,7 +82,8 @@ def getName(request):
         else:
             return JsonResponse({'result': 0, 'message': '用户不存在!'})
         name = user.username
-        return JsonResponse({'result': name, 'message': '返回成功！'})
+        flag = user.ifManager
+        return JsonResponse({'result': {"name": name, "ifManager": flag}, 'message': '返回成功！'})
 
 @csrf_exempt
 def getManager(request):
