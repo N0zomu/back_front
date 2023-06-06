@@ -3,6 +3,7 @@ import json
 from book.models import Book
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
 
 # Create your views here.
 
@@ -177,3 +178,24 @@ def getBookByTwoType(request):
     else:
         return JsonResponse({'result': 0, 'message': '图书不存在!'})
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
+
+@csrf_exempt
+def searchBookByKey(request):
+    if request.method != 'POST':
+        return JsonResponse({'result': 0, 'message': 'request error!'})
+    data_json = json.loads(request.body)
+    key = data_json['key']
+    books = [{
+            'book_id': x.book_id,
+            'book_name': x.book_name,
+            'book_introduction': x.book_introduction,
+            'book_main_type': x.book_main_type,
+            'book_secondary_type': x.book_secondary_type,
+            'book_id': x.book_id,
+            'book_name': x.book_name,
+            'book_author_name': x.book_author_name,
+            'book_popularity': x.book_popularity,
+            'book_score': x.book_score,
+        } for x in Book.objects.filter(book_name__contains=key)]
+    return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
+  

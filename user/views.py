@@ -61,7 +61,7 @@ def logout(request):
         return JsonResponse({'result': 0, 'message': r'请先登录!'})
 
 @csrf_exempt
-def modifySex(request):
+def modifyUser(request):
     if request.method == 'POST':
         id = request.session.get('id', 0)
         if User.objects.filter(user_id=id).exists() == True:
@@ -69,7 +69,9 @@ def modifySex(request):
         else:
             return JsonResponse({'result': 0, 'message': '用户不存在!'})
         data_json = json.loads(request.body)
+        name = data_json['username']
         sex = data_json['sex']
+        user.username = name
         user.sex = sex
         user.save()
         return JsonResponse({'result': 1, 'message': '修改成功!'})
@@ -84,3 +86,14 @@ def getName(request):
             return JsonResponse({'result': 0, 'message': '用户不存在!'})
         name = user.username
         return JsonResponse({'result': name, 'message': '返回成功！'})
+
+@csrf_exempt
+def getManager(request):
+    if request.method == 'POST':
+        id = request.session.get('id', 0)
+        if User.objects.filter(user_id=id).exists() == True:
+            user = User.objects.get(user_id=id)
+        else:
+            return JsonResponse({'result': 0, 'message': '用户不存在!'})
+        flag = user.ifManager
+        return JsonResponse({'result': flag, 'message': '返回成功！'})
