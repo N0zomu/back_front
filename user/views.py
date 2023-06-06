@@ -30,11 +30,11 @@ def register(request):
 @csrf_exempt
 def login(request):
     if request.method == 'POST':
-        id = request.session.get('id', 0)
+        data_json = json.loads(request.body)
+        id = data_json["user_id"]
         # 从 session 中获取信息
         if id != 0:
             return JsonResponse({'result': 0, 'message': '用户已登录!'})
-        data_json = json.loads(request.body)
         username = data_json['username']
         password = data_json['password']
         if User.objects.filter(username=username).exists() == True:
@@ -46,15 +46,15 @@ def login(request):
                 # 如果有多个表项匹配这一条件，则报错
 
         if user.password == password:
-            request.session["id"] = user.user_id
-            return JsonResponse({'result': 1, 'message': '登录成功!'})
+            return JsonResponse({'result': user.user_id, 'message': '登录成功!'})
         else:
             return JsonResponse({'result': 0, 'message': '密码错误!'})
 
 @csrf_exempt
 def logout(request):
-    if request.session.get('id', 0) != 0:
-        request.session.flush()
+    data_json = json.loads(request.body)
+    id = data_json["user_id"]
+    if id != 0:
         # 清空所有的信息
         return JsonResponse({'result': 1, 'message': r'已登出!'})
     else:
@@ -63,12 +63,12 @@ def logout(request):
 @csrf_exempt
 def modifyUser(request):
     if request.method == 'POST':
-        id = request.session.get('id', 0)
+        data_json = json.loads(request.body)
+        id = data_json["user_id"]
         if User.objects.filter(user_id=id).exists() == True:
             user = User.objects.get(user_id=id)
         else:
             return JsonResponse({'result': 0, 'message': '用户不存在!'})
-        data_json = json.loads(request.body)
         name = data_json['username']
         sex = data_json['sex']
         user.username = name
@@ -79,7 +79,8 @@ def modifyUser(request):
 @csrf_exempt
 def getName(request):
     if request.method == 'POST':
-        id = request.session.get('id', 0)
+        data_json = json.loads(request.body)
+        id = data_json["user_id"]
         if User.objects.filter(user_id=id).exists() == True:
             user = User.objects.get(user_id=id)
         else:
@@ -90,7 +91,8 @@ def getName(request):
 @csrf_exempt
 def getManager(request):
     if request.method == 'POST':
-        id = request.session.get('id', 0)
+        data_json = json.loads(request.body)
+        id = data_json["user_id"]
         if User.objects.filter(user_id=id).exists() == True:
             user = User.objects.get(user_id=id)
         else:
