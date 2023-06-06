@@ -22,4 +22,6 @@ urlpatterns = [
     path('author/', include(('author.urls', 'author'), namespace="author")),
     path('label/', include(('label.urls', 'label'), namespace="label")),
     path('star/', include(('star.urls', 'star'), namespace="star")),
+    path('user/', include(('user.urls', 'user'), namespace="user")),
+    path('book/', include(('book.urls', 'book'), namespace="book")),
 ]
