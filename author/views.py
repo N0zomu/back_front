@@ -57,19 +57,8 @@ def search_author(request):
         
         name = data_json['name']  # 假设前端传递的数据包含要搜索的作者的名字
         
-        authors = Author.objects.filter(name__icontains=name)
-        
-        if authors.exists():
-            # 构造返回的作者列表
-            author_list = []
-            for author in authors:
-                author_data = {
-                    'id': author.id,
-                    'name': author.name,
-                    'introduction': author.introduction
-                }
-                author_list.append(author_data)
-            
-            return JsonResponse({'result': 1, 'message': '查询成功', 'authors': author_list})
+        if Author.objects.filter(name=name).exists() == True:
+            author = Author.objects.get(name=name)
+            return JsonResponse({'result': 1, 'message': '查询成功', 'author': author.to_dic()})
         else:
             return JsonResponse({'result': 0, 'message': '未找到匹配的作者'})

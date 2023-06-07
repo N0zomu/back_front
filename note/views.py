@@ -79,7 +79,7 @@ def update_note_color(request):
 def update_note_text(request):
     data_json = json.loads(request.body)
     note_range = data_json['range']
-    text = data_json['text']
+    text = data_json.get('text', '')
     try:
         note = Note.objects.get(range1=note_range)
     except Note.DoesNotExist:
