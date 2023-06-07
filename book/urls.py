@@ -12,5 +12,6 @@ urlpatterns = [
     path('getBookByMainType', getBookByMainType),
     path('getBookByTwoType', getBookByTwoType),
     path('searchBookByKey', searchBookByKey),
+    path('getBookSource', getBookSource)
 
 ]
