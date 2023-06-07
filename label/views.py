@@ -27,10 +27,10 @@ def delete_label(request):
     if request.method == 'POST':
         data_json = json.loads(request.body)
         
-        label_id = data_json['id']
+        label_time = data_json['time']
         
         try:
-            label = Label.objects.get(id=label_id)
+            label = Label.objects.get(time=label_time)
             label.delete()
             return JsonResponse({'result': 1, 'message': '删除成功'})
         except Label.DoesNotExist:
@@ -69,20 +69,20 @@ def search_label(request):
         
         user_id = data_json['user_id']
         book_id = data_json['book_id']
-        chapter_id = data_json['chapter_id'] 
         
         try:
-            label = Label.objects.get(user_id=user_id, book_id=book_id, chapter_id=chapter_id)
-        
-            label_data = {
-                'label_id': label.id,
-                'user_id': label.user_id,
-                'book_id': label.book_id,
-                'chapter_id': label.chapter_id,
-                'cfi': label.cfi,
-                'percentage': label.percentage,
-                'time': label.time.strftime('%Y-%m-%d %H:%M:%S') if label.time else None
-            }
+            labels = Label.objects.filter(user_id=user_id, book_id=book_id)
+            label_data = []
+            for label in labels:
+                label_data.append({
+                    'label_id': label.id,
+                    'user_id': label.user_id,
+                    'book_id': label.book_id,
+                    'chapter_id': label.chapter_id,
+                    'cfi': label.cfi,
+                    'percentage': label.percentage,
+                    'time': label.time.strftime('%Y-%m-%d %H:%M:%S') if label.time else None
+                })
             
             return JsonResponse({'result': 1, 'message': '查询成功', 'labels': label_data})
         except Label.DoesNotExist:

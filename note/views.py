@@ -58,9 +58,12 @@ def view_all_note(request, user_id, book_id):
 
 # 更新笔记color
 @csrf_exempt
-def update_note_color(request, note_id, color):
+def update_note_color(request):
+    data_json = json.loads(request.body)
+    note_range = data_json['range']
+    color = data_json['color']
     try:
-        note = Note.objects.get(note_id=note_id)
+        note = Note.objects.get(range1=note_range)
     except Note.DoesNotExist:
         return JsonResponse({'error': 'Note not found.'}, status=404)
     if request.method == 'POST':
@@ -73,9 +76,12 @@ def update_note_color(request, note_id, color):
 
 # 更新笔记text
 @csrf_exempt
-def update_note_text(request, note_id, text):
+def update_note_text(request):
+    data_json = json.loads(request.body)
+    note_range = data_json['range']
+    text = data_json['text']
     try:
-        note = Note.objects.get(note_id=note_id)
+        note = Note.objects.get(range1=note_range)
     except Note.DoesNotExist:
         return JsonResponse({'error': 'Note not found.'}, status=404)
 
@@ -87,10 +93,12 @@ def update_note_text(request, note_id, text):
 
 # 删除笔记
 @csrf_exempt
-def delete_note(request, note_id):
-    note = get_object_or_404(Note, note_id=note_id)
+def delete_note(request):
+    data_json = json.loads(request.body)
+    note_range = data_json['range']
+    note = get_object_or_404(Note, range1=note_range)
     try:
-        note = Note.objects.get(note_id=note_id)
+        note = Note.objects.get(range1=note_range)
     except Note.DoesNotExist:
         return JsonResponse({'error': 'Note not found.'}, status=404)
     if request.method == 'POST':
