@@ -222,3 +222,13 @@ def getBookSource(request):
     # else:
     #     return HttpResponse("Sorry, the file you requested does not exist.")
 
+@csrf_exempt
+def getBookId(request):
+    data_json = json.loads(request.body)
+    name = data_json['book_name']
+    if Book.objects.filter(book_name=name).exists() == True:
+        book = Book.objects.get(book_name=name)
+    else:
+        return JsonResponse({'result': 0, 'message': '图书不存在!'})
+    id = book.book_id
+    return JsonResponse({'result': id, 'message': '成功!'})
