@@ -47,12 +47,11 @@ def get_chapter(request):
         return JsonResponse({'result':0, 'message':'Error'})
     data_json = json.loads(request.body)
     book_id = data_json['book_id']
-    chapter_no = data_json['chapter_no']
     posts = [{
         'book_id': x.book_id,
         'chapter_id': x.chapter_id,
         'chapter_no': x.chapter_no,
         'chapter_name': x.chapter_name,
         'chapter_href': x.chapter_href
-    } for x in Chapter.objects.filter(book_id=book_id, chapter_no=chapter_no)]
+    } for x in Chapter.objects.order_by('chapter_no').filter(book_id=book_id)]
     return JsonResponse({'result':1, 'message':r'获取成功', 'posts':posts})
