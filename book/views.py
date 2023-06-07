@@ -129,7 +129,7 @@ def getBookByAuthor(request):
             'book_author_name': x.book_author_name,
             'book_popularity': x.book_popularity,
             'book_score': x.book_score,
-        } for x in Book.objects.filter(book_author_name=author)]
+        } for x in Book.objects.order_by('book_popularity').filter(book_author_name=author)]
     else:
         return JsonResponse({'result': 0, 'message': '图书不存在!'})
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
@@ -152,7 +152,7 @@ def getBookByMainType(request):
             'book_author_name': x.book_author_name,
             'book_popularity': x.book_popularity,
             'book_score': x.book_score,
-        } for x in Book.objects.filter(book_main_type=main)]
+        } for x in Book.objects.order_by('book_popularity').filter(book_main_type=main)]
     else:
         return JsonResponse({'result': 0, 'message': '图书不存在!'})
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
@@ -176,7 +176,7 @@ def getBookByTwoType(request):
             'book_author_name': x.book_author_name,
             'book_popularity': x.book_popularity,
             'book_score': x.book_score,
-        } for x in Book.objects.filter(book_main_type=main).filter(book_secondary_type=sec)]
+        } for x in Book.objects.order_by('book_popularity').filter(book_main_type=main).filter(book_secondary_type=sec)]
     else:
         return JsonResponse({'result': 0, 'message': '图书不存在!'})
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
@@ -198,7 +198,7 @@ def searchBookByKey(request):
             'book_author_name': x.book_author_name,
             'book_popularity': x.book_popularity,
             'book_score': x.book_score,
-        } for x in Book.objects.filter(book_name__contains=key)]
+        } for x in Book.objects.order_by('book_popularity').filter(book_name__contains=key)]
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
   
 @csrf_exempt
@@ -221,3 +221,4 @@ def getBookSource(request):
     #     return response
     # else:
     #     return HttpResponse("Sorry, the file you requested does not exist.")
+
