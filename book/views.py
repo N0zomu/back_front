@@ -22,10 +22,11 @@ def addBook(request):
         book_author_name = data_json['book_author_name']
         book_popularity = data_json['book_popularity']
         book_score = data_json['book_score']
+        book_url = data_jason['book_url']
 
         book = Book(book_name=book_name, book_introduction=book_introduction, book_main_type=book_main_type, 
         book_secondary_type=book_secondary_type, book_author_name=book_author_name, book_popularity=book_popularity, 
-        book_score=book_score)
+        book_score=book_score, book_url=book_url)
         # id 是自动赋值，不需要指明
         # post 不赋值会使用默认值0
 
@@ -199,3 +200,15 @@ def searchBookByKey(request):
         } for x in Book.objects.filter(book_name__contains=key)]
     return JsonResponse({'result': 1, "message": '成功！', 'posts': books})
   
+@csrf_exempt
+def getBookSource(request):
+    data_json = json.loads(request.body)
+    path = data_json['path']
+    if os.path.exists(path):
+        with open(file_path, 'rb') as f:
+            file_data = f.read()
+        response = HttpResponse(file_data, content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(os.path.basename(file_path))
+        return response
+    else:
+        return HttpResponse("Sorry, the file you requested does not exist.")
