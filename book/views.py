@@ -23,7 +23,7 @@ def addBook(request):
         book_author_name = data_json['book_author_name']
         book_popularity = data_json['book_popularity']
         book_score = data_json['book_score']
-        book_url = data_jason['book_url']
+        book_url = data_json['book_url']
 
         book = Book(book_name=book_name, book_introduction=book_introduction, book_main_type=book_main_type, 
         book_secondary_type=book_secondary_type, book_author_name=book_author_name, book_popularity=book_popularity, 
@@ -204,12 +204,20 @@ def searchBookByKey(request):
 @csrf_exempt
 def getBookSource(request):
     data_json = json.loads(request.body)
-    path = data_json['path']
-    if os.path.exists(path):
-        with open(file_path, 'rb') as f:
-            file_data = f.read()
-        response = HttpResponse(file_data, content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(os.path.basename(file_path))
-        return response
+    id = data_json['id']
+    if Book.objects.filter(book_id=id).exists() == True:
+        book = Book.objects.get(book_id=id)
     else:
-        return HttpResponse("Sorry, the file you requested does not exist.")
+        return JsonResponse({'result': 0, 'message': '图书不存在!'})
+    url = book.book_url
+    return JsonResponse({'result': url, 'message': '成功!'})
+    # data_json = json.loads(request.body)
+    # path = data_json['path']
+    # if os.path.exists(path):
+    #     with open(path, 'rb') as f:
+    #         file_data = f.read()
+    #     response = HttpResponse(file_data, content_type='application/octet-stream')
+    #     response['Content-Disposition'] = 'attachment; filename="{}"'.format(os.path.basename(path))
+    #     return response
+    # else:
+    #     return HttpResponse("Sorry, the file you requested does not exist.")

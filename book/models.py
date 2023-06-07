@@ -12,7 +12,7 @@ class Book(models.Model):
     book_author_name = models.CharField(max_length=20, default="")
     book_popularity = models.IntegerField()
     book_score = models.IntegerField(validators=[MaxValueValidator(5), MinValueValidator(0)])
-    book_url = models.CharField(max_length=100, default="")
+    book_url = models.CharField(max_length=100, default="null")
 
     def to_dic(self):
         return {
@@ -21,8 +21,6 @@ class Book(models.Model):
             'book_introduction': self.book_introduction,
             'book_main_type': self.book_main_type,
             'book_secondary_type': self.book_secondary_type,
-            'book_id': self.book_id,
-            'book_name': self.book_name,
             'book_author_name': self.book_author_name,
             'book_popularity': self.book_popularity,
             'book_score': self.book_score,
